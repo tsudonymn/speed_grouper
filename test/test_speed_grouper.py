@@ -2,8 +2,7 @@ from unittest import TestCase
 
 from assertpy import assert_that
 
-from grouper import get_combinations_for, group_by_person, person_in_group, get_next_group, \
-    generate_person_list, get_next_round
+from grouper import generate_person_list
 from speed_grouper import SpeedGrouper
 
 

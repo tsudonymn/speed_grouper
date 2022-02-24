@@ -1,25 +1,19 @@
-from itertools import combinations
+from itertools import combinations, chain
 from pprint import pprint
 
-from typing import List, Tuple
+from typing import List, Tuple, Set
 
 from person import generate_person_list, Person
 
 DEFAULT_GROUP_SIZE = 3
 
 
-def form_groups(people: List[str], people_per_group=DEFAULT_GROUP_SIZE):
-    all_combos = get_combinations_for(people, people_per_group)
-    combos_for_person = group_by_person(people, all_combos)
-    return combos_for_person
+def group_contains_any_of_these_people(people_already_in_groups: Set[Person], a_group):
+    return len(people_already_in_groups.intersection(a_group)) > 0
 
 
-def group_by_person(people: List[Person], combos):
-    by_person = {}
-    for p in people:
-        combos_for_person = list(filter(lambda c: c[0].name == p.name, combos))
-        by_person[p.name] = combos_for_person
-    return by_person
+def flatten_to_set(groups: List[Tuple[Person, ...]]):
+    return set(chain(*groups))
 
 
 def get_combinations_for(people: List[Person], people_per_group=DEFAULT_GROUP_SIZE):
@@ -101,5 +95,5 @@ if __name__ == '__main__':
     # print_groups(attendees)
 
 
-def find_next_group_for(person, remaining_group_combos: List[Tuple[Person, ...]]):
+def find_next_group(person, remaining_group_combos: List[Tuple[Person, ...]]):
     return next(filter(lambda group: person in group, remaining_group_combos))

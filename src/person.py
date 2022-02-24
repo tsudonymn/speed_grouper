@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import List
 
 
-@dataclass
+@dataclass(init=True, repr=True, eq=True, order=False, unsafe_hash=False, frozen=True)
 class Person:
     name: str
 
