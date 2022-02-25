@@ -27,11 +27,13 @@ class SpeedGrouper:
 
     def get_group_for_person_from_remaining(self, person, current_groups: List[Tuple[Person, ...]]):
         people_already_in_groups = flatten_to_set(current_groups)
+        remaining_groups_with_person = [group for group in self.remaining_combinations if person in group]
         iterable = filter(lambda a_group: not group_contains_any_of_these_people(people_already_in_groups, a_group),
                           self.remaining_combinations)
         filtered_combos = list(iterable)
         group = find_next_group(person, filtered_combos)
-        self.remaining_combinations.remove(group)
+        if not len(group) == 0:
+            self.remaining_combinations.remove(group)
         return group
 
     def get_round_number(self):

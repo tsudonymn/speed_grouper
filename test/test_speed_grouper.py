@@ -1,5 +1,6 @@
 from unittest import TestCase
 
+import numpy as numpy
 from assertpy import assert_that
 
 from grouper import generate_person_list
@@ -35,7 +36,7 @@ class Test(TestCase):
         g789 = (p7, p8, p9)
         g101112 = (p10, p11, p12)
         g131415 = (p13, p14, p15)
-        round1_expected_groups = [g123, g456, g789, g101112, g131415 ]
+        round1_expected_groups = [g123, g456, g789, g101112, g131415]
         round = grouper.build_next_round()
         assert_that(round.number).is_equal_to(1)
         assert_that(len(grouper.rounds)).is_equal_to(1)
@@ -43,8 +44,15 @@ class Test(TestCase):
         assert_that(len(round.groups)).is_equal_to(len(round1_expected_groups))
         # assert_that(round.groups).is_equal_to(round1_expected_groups)
         assert_that(set(round.groups).intersection(set(round1_expected_groups))).is_equal_to(set())
-        #
-        # expected2 = []
-        # round2 = grouper.build_next_round()
-        # assert_that(len(round2)).is_equal_to(num_per_group)
-        # assert_that(round2).is_equal_to(expected2)
+
+        groups = self.generate_groups(15, 3)
+        expected2 = {}
+        round2 = grouper.build_next_round()
+        assert_that(len(round2.groups)).is_equal_to(num_per_group)
+        assert_that(set(round2.groups).intersection(expected2)).is_equal_to({})
+
+    @staticmethod
+    def generate_groups(num_people, people_per_group):
+        people = generate_person_list(num_people)
+        result = numpy.array_split(people, num_people/people_per_group)
+        return result
