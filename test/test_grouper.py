@@ -14,13 +14,15 @@ class Test(TestCase):
         p1 = Person('1')
         p2 = Person('2')
         p3 = Person('3')
+        p4 = Person('4')
+        p5 = Person('5')
         g1 = (p1, p2, p3)
-        a_group = [g1]
+        a_group123 = g1
 
-        group = {'1', '2'}
-        group2 = {'4', '5'}
-        assert_that(group_contains_any_of_these_people(group, a_group)).is_true()
-        assert_that(group_contains_any_of_these_people(group2, a_group)).is_false()
+        group12 = {p1, p2}
+        group45 = {p4, p5}
+        assert_that(group_contains_any_of_these_people(group12, a_group123)).is_true()
+        assert_that(group_contains_any_of_these_people(group45, a_group123)).is_false()
 
     def test_find_next_group_for(self):
         p1 = Person('1')
@@ -68,6 +70,6 @@ class Test(TestCase):
         g1 = (p1, p2, p3)
         g2 = (p4, p5, p6)
         groups = [g1, g2]
-        expected = {p1, p2, p3, p4}
+        expected = {p1, p2, p3, p4, p5, p6}
         result = flatten_to_set(groups)
         assert_that(result).is_equal_to(expected)

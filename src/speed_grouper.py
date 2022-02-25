@@ -27,9 +27,10 @@ class SpeedGrouper:
 
     def get_group_for_person_from_remaining(self, person, current_groups: List[Tuple[Person, ...]]):
         people_already_in_groups = flatten_to_set(current_groups)
-        filter(lambda a_group: group_contains_any_of_these_people(people_already_in_groups, a_group),
-               self.remaining_combinations)
-        group = find_next_group(person, self.remaining_combinations)
+        iterable = filter(lambda a_group: not group_contains_any_of_these_people(people_already_in_groups, a_group),
+                          self.remaining_combinations)
+        filtered_combos = list(iterable)
+        group = find_next_group(person, filtered_combos)
         self.remaining_combinations.remove(group)
         return group
 
